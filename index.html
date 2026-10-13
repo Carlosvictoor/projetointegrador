@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Comunitária</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-conteudo">
+      <h1>📚 Biblioteca Comunitária</h1>
+      <p>Sistema de controle de acervo e empréstimos</p>
+    </div>
+    <nav class="abas">
+      <button class="aba ativa" data-aba="painel">Painel</button>
+      <button class="aba" data-aba="livros">Livros</button>
+      <button class="aba" data-aba="leitores">Leitores</button>
+      <button class="aba" data-aba="emprestimos">Empréstimos</button>
+      <button class="aba" data-aba="relatorios">Relatórios</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===================== PAINEL ===================== -->
+    <section id="painel" class="secao ativa">
+      <h2>Visão geral</h2>
+      <div id="cartoes" class="cartoes"></div>
+
+      <div class="bloco">
+        <h3>Empréstimos atrasados</h3>
+        <div id="tabela-atrasados"></div>
+      </div>
+
+      <div class="bloco">
+        <h3>Dados do sistema</h3>
+        <p class="dica">Os dados ficam salvos neste navegador. Use o botão abaixo para voltar aos dados de exemplo.</p>
+        <button id="btn-restaurar" class="botao secundario">Restaurar dados de exemplo</button>
+      </div>
+    </section>
+
+    <!-- ===================== LIVROS ===================== -->
+    <section id="livros" class="secao">
+      <h2>Livros</h2>
+
+      <div class="bloco">
+        <h3>Cadastrar livro</h3>
+        <form id="form-livro" class="formulario">
+          <label>Título <input name="titulo" required maxlength="120"></label>
+          <label>Autor <input name="autor" required maxlength="80"></label>
+          <label>Categoria <select name="categoria" id="sel-categoria" required></select></label>
+          <label>Ano <input name="ano" type="number" min="1000" max="2100" required></label>
+          <label>Exemplares <input name="exemplares" type="number" min="1" max="99" value="1" required></label>
+          <button type="submit" class="botao">Cadastrar</button>
+        </form>
+      </div>
+
+      <div class="bloco">
+        <h3>Busca por código (sequencial x binária)</h3>
+        <form id="form-busca-codigo" class="formulario linha">
+          <label>Código <input name="codigo" placeholder="Ex.: L0015" required></label>
+          <button type="submit" class="botao">Buscar</button>
+        </form>
+        <div id="resultado-busca-codigo"></div>
+      </div>
+
+      <div class="bloco">
+        <div class="barra-lista">
+          <input id="busca-livros" type="search" placeholder="Buscar por título, autor, categoria ou código...">
+          <label>Ordenar por
+            <select id="ordem-livros">
+              <option value="titulo">Título (A-Z)</option>
+              <option value="autor">Autor (A-Z)</option>
+              <option value="ano">Ano (mais antigo)</option>
+              <option value="ano-desc">Ano (mais recente)</option>
+              <option value="codigo">Código</option>
+            </select>
+          </label>
+        </div>
+        <p id="info-livros" class="dica"></p>
+        <div id="tabela-livros"></div>
+      </div>
+    </section>
+
+    <!-- ===================== LEITORES ===================== -->
+    <section id="leitores" class="secao">
+      <h2>Leitores</h2>
+
+      <div class="bloco">
+        <h3>Cadastrar leitor</h3>
+        <form id="form-leitor" class="formulario">
+          <label>Nome <input name="nome" required maxlength="80"></label>
+          <label>Tipo <select name="tipo" id="sel-tipo" required></select></label>
+          <label>Contato <input name="contato" maxlength="80" placeholder="Telefone ou e-mail"></label>
+          <button type="submit" class="botao">Cadastrar</button>
+        </form>
+      </div>
+
+      <div class="bloco">
+        <div class="barra-lista">
+          <input id="busca-leitores" type="search" placeholder="Buscar por nome, tipo ou contato...">
+        </div>
+        <p id="info-leitores" class="dica"></p>
+        <div id="tabela-leitores"></div>
+      </div>
+    </section>
+
+    <!-- ===================== EMPRÉSTIMOS ===================== -->
+    <section id="emprestimos" class="secao">
+      <h2>Empréstimos</h2>
+
+      <div class="bloco">
+        <h3>Novo empréstimo</h3>
+        <form id="form-emprestimo" class="formulario">
+          <label>Livro <select name="livroId" id="sel-livro" required></select></label>
+          <label>Leitor <select name="leitorId" id="sel-leitor" required></select></label>
+          <label>Prazo (dias) <input name="prazo" type="number" min="1" max="60" required></label>
+          <button type="submit" class="botao">Emprestar</button>
+        </form>
+        <p id="regras" class="dica"></p>
+      </div>
+
+      <div class="bloco">
+        <h3>Em aberto</h3>
+        <div id="tabela-abertos"></div>
+      </div>
+
+      <div class="bloco">
+        <h3>Últimas devoluções</h3>
+        <div id="tabela-devolvidos"></div>
+      </div>
+    </section>
+
+    <!-- ===================== RELATÓRIOS ===================== -->
+    <section id="relatorios" class="secao">
+      <h2>Relatórios</h2>
+
+      <div class="grade-2">
+        <div class="bloco">
+          <h3>Livros mais emprestados</h3>
+          <div id="ranking-livros"></div>
+        </div>
+        <div class="bloco">
+          <h3>Leitores mais ativos</h3>
+          <div id="ranking-leitores"></div>
+        </div>
+      </div>
+
+      <div class="bloco">
+        <div class="barra-lista">
+          <h3>Empréstimos por mês e categoria</h3>
+          <label>Ano <select id="ano-matriz"></select></label>
+        </div>
+        <div id="matriz"></div>
+        <p id="resumo-matriz" class="dica"></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="aviso" class="aviso" role="status" aria-live="polite"></div>
+
+  <footer class="rodape">
+    Projeto Integrador: Programação WEB, UNISA 2026
+  </footer>
+
+  <script src="js/algoritmos.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
